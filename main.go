@@ -26,7 +26,6 @@ func main() {
 	turns = 1
 
 	for game_over == false {
-
 		guess_col = human_player.Player_choice_col()
 		guess_row = human_player.Player_choice_row()
 
@@ -38,7 +37,10 @@ func main() {
 		}
 
 		turns += 1
-		game_logic.Game_check(board)
+
+		game_over = game_logic.Game_check(board)
+		if game_over == true {break}
+
 		comp_col = cpu_player.Comp_choice_col()
 		comp_row = cpu_player.Comp_choice_row()
 
@@ -57,10 +59,9 @@ func main() {
 
 		game_logic.Print_board(board)
 
-		game_logic.Game_check(board)
-
 		game_over = game_logic.Game_check(board)
 	}
+
 	if game_over == true {
 		game_logic.Print_board(board)
 	}
