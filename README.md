@@ -1,4 +1,4 @@
-# README Boilerplate
+# Tic-Tac-Toe
 
 A game of Tic-Tac-Toe written in Go.
 
