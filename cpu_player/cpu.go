@@ -4,17 +4,10 @@ import (
 	"math/rand"
 )
 
-var (
-	comp_row int
-	comp_col int
-)
-
-func Comp_choice_col() int {
-	comp_col = rand.Intn(3)
-	return (comp_col)
+func Comp_choice_col(comp_guess chan int) {
+	comp_guess <-rand.Intn(3)
 }
 
-func Comp_choice_row() int {
-	comp_row = rand.Intn(3)
-	return (comp_row)
+func Comp_choice_row(comp_guess chan int) {
+	comp_guess <-rand.Intn(3)
 }

@@ -22,10 +22,16 @@ func main() {
 	board[1] = [3]string{"_", "_", "_"}
 	board[2] = [3]string{"_", "_", "_"}
 
+	comp_guess := make(chan int, 2)
+
 	game_over = false
 	turns = 1
 
 	for game_over == false {
+
+		go cpu_player.Comp_choice_col(comp_guess)
+		go cpu_player.Comp_choice_row(comp_guess)
+
 		guess_col = human_player.Player_choice_col()
 		guess_row = human_player.Player_choice_row()
 
@@ -39,18 +45,21 @@ func main() {
 		turns += 1
 
 		game_over = game_logic.Game_check(board)
-		if game_over == true {break}
+		if game_over == true {
+			break
+		}
 
-		comp_col = cpu_player.Comp_choice_col()
-		comp_row = cpu_player.Comp_choice_row()
+		comp_col = <-comp_guess
+		comp_row = <-comp_guess
 
 		if board[comp_col][comp_row] == "_" {
 			board[comp_col][comp_row] = "o"
 		} else {
 			for board[comp_col][comp_row] != "_" {
-				comp_col = cpu_player.Comp_choice_col()
-				comp_row = cpu_player.Comp_choice_row()
-				attempts += 1
+				go cpu_player.Comp_choice_col(comp_guess)
+				go cpu_player.Comp_choice_row(comp_guess)
+				comp_col = <-comp_guess
+				comp_row = <-comp_guess
 			}
 			board[comp_col][comp_row] = "o"
 		}
